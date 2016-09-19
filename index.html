@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="dumbApp">
+<head>
+	<title></title>
+</head>
+<body ng-controller="mainCtrl">
+	
+  <script src="node_modules/jquery/dist/jquery.js"></script>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script>
+
+  //needs to change each time you re-run ngrok
+	var ngrokURL = "https://938475fe.ngrok.io/";
+		
+	//Ajax GET
+	$.ajax({
+	  method: "GET",
+	  url: ngrokURL + 'entrance',
+	  dataType: "json",
+	  success: function(data) {
+	    console.log("from ajax", data);
+	  },
+	  error: function(jqXHR, textStatus, errorThrown) {
+	    console.log(textStatus);
+	  }
+	}); 	
+
+  //jQuery GET and POST
+  $.get(ngrokURL + 'entrance', function(res){
+  	console.log('from jQuery', res)
+  })
+
+  var data = {2:"two"}
+  $.post(ngrokURL + 'entrance', data, function(res){
+  	console.log("jQuery post result:", res)
+  })
+
+
+	//Angular GET
+	var app = angular.module("dumbApp", []);
+	app.controller('mainCtrl', function($scope, $http) {
+
+		$http.get(ngrokURL + 'entrance').success(function(res){
+			console.log("from angular", res)
+		})
+	});
+
+  </script>
+</body>
+</html>
